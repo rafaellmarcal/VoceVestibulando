@@ -5,6 +5,7 @@ using VV.Autenticacao.API.Models;
 
 namespace VV.Autenticacao.API.Controllers
 {
+    [ApiController]
     [Route("api/auth")]
     public class AuthController : Controller
     {

@@ -12,9 +12,8 @@ using VV.Autenticacao.API.Models;
 
 namespace VV.Autenticacao.API.Controllers
 {
-    [ApiController]
     [Route("api/auth")]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly AppSettings _appSettings;
         private readonly UserManager<IdentityUser> _userManager;
@@ -33,7 +32,7 @@ namespace VV.Autenticacao.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Registrar(UsuarioRegistro usuario)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var user = new IdentityUser()
             {
@@ -45,24 +44,30 @@ namespace VV.Autenticacao.API.Controllers
             var loginAttempt = await _userManager.CreateAsync(user, usuario.Senha);
 
             if (loginAttempt.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, false);
-                return Ok(await CreateJwt(usuario.Email));
-            }
+                return CustomResponse(await CreateJwt(usuario.Email));
 
-            return BadRequest();
+            foreach (IdentityError error in loginAttempt.Errors)
+                AddErrors(error.Description);
+
+            return CustomResponse();
         }
 
         [HttpPost("login")]
         public async Task<ActionResult> Login(UsuarioLogin usuario)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var loginAttempt = await _signInManager.PasswordSignInAsync(usuario.Email, usuario.Senha, false, true);
 
-            if (loginAttempt.Succeeded) return Ok(await CreateJwt(usuario.Email));
+            if (loginAttempt.Succeeded) return CustomResponse(await CreateJwt(usuario.Email));
 
-            return BadRequest();
+            if (loginAttempt.IsLockedOut)
+                AddErrors("Usuário bloqueado por tentativas inválidas!");
+            else
+                AddErrors("Usuário/Senha inválido(s)!");
+
+
+            return CustomResponse();
         }
 
         private async Task<UsuarioRespostaLogin> CreateJwt(string email)

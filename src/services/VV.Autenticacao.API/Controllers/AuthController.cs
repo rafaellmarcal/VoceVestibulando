@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -74,6 +75,16 @@ namespace VV.Autenticacao.API.Controllers
         {
             var user = await _userManager.FindByEmailAsync(email);
             var claims = await _userManager.GetClaimsAsync(user);
+
+            ClaimsIdentity identityClaim = await BuildIdentityClaims(user, claims);
+            string encodedToken = BuildJwt(identityClaim);
+            UsuarioRespostaLogin response = BuildUserResponse(user, encodedToken, claims);
+
+            return response;
+        }
+
+        private async Task<ClaimsIdentity> BuildIdentityClaims(IdentityUser user, ICollection<Claim> claims)
+        {
             var roles = await _userManager.GetRolesAsync(user);
 
             claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
@@ -88,6 +99,11 @@ namespace VV.Autenticacao.API.Controllers
             var identityClaim = new ClaimsIdentity();
             identityClaim.AddClaims(claims);
 
+            return identityClaim;
+        }
+
+        private string BuildJwt(ClaimsIdentity identityClaim)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
 
@@ -100,8 +116,11 @@ namespace VV.Autenticacao.API.Controllers
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             });
 
-            var encodedToken = tokenHandler.WriteToken(token);
+            return tokenHandler.WriteToken(token);
+        }
 
+        private UsuarioRespostaLogin BuildUserResponse(IdentityUser user, string encodedToken, ICollection<Claim> claims)
+        {
             var response = new UsuarioRespostaLogin()
             {
                 AccessToken = encodedToken,
@@ -116,7 +135,6 @@ namespace VV.Autenticacao.API.Controllers
 
             return response;
         }
-
 
         private static long ToUnixEpochDate(DateTime date)
             => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);

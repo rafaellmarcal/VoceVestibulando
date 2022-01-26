@@ -11,15 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{87
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{37AD98E8-BCC0-40B6-AA1F-A38064EC1E24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VV.Core", "src\building blocks\VV.Core\VV.Core.csproj", "{A4C705B1-59E7-444F-8453-43FFB4C89E4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VV.Core", "src\building blocks\VV.Core\VV.Core.csproj", "{A4C705B1-59E7-444F-8453-43FFB4C89E4E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Autenticacao", "Autenticacao", "{4933BD9B-A49D-4088-864E-85A2E41337DA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{4933BD9B-A49D-4088-864E-85A2E41337DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VV.Autenticacao.API", "src\services\VV.Autenticacao.API\VV.Autenticacao.API.csproj", "{1EDF12BC-293C-4E47-8453-E0F9B107F9CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VV.Autenticacao.API", "src\services\VV.Autenticacao.API\VV.Autenticacao.API.csproj", "{1EDF12BC-293C-4E47-8453-E0F9B107F9CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVC", "MVC", "{71595B41-6FD9-4473-9938-D38AABA5054E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VV.WebApp.MVC", "src\web\VV.WebApp.MVC\VV.WebApp.MVC.csproj", "{7067EDF6-E005-4617-9DDF-57555F57B11B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VV.WebApp.MVC", "src\web\VV.WebApp.MVC\VV.WebApp.MVC.csproj", "{7067EDF6-E005-4617-9DDF-57555F57B11B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

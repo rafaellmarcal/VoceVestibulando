@@ -7,15 +7,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using VV.WebApp.MVC.Models;
-using VV.WebApp.MVC.Services;
+using VV.WebApp.MVC.Services.Interfaces;
 
 namespace VV.WebApp.MVC.Controllers
 {
-    public class AuthenticationController : Controller
+    public class AuthController : Controller
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthService _authenticationService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthController(IAuthService authenticationService)
         {
             _authenticationService = authenticationService;
         }

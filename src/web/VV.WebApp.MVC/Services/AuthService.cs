@@ -3,14 +3,15 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using VV.WebApp.MVC.Models;
+using VV.WebApp.MVC.Services.Interfaces;
 
 namespace VV.WebApp.MVC.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthService : IAuthService
     {
         private readonly HttpClient _httpClient;
 
-        public AuthenticationService(HttpClient httpClient)
+        public AuthService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
@@ -19,7 +20,7 @@ namespace VV.WebApp.MVC.Services
         {
             StringContent stringContent = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync("", stringContent);
+            HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:5000/api/auth/login", stringContent);
 
             return JsonSerializer.Deserialize<UserResponseLogin>(await response.Content.ReadAsStringAsync());
         }
@@ -28,7 +29,7 @@ namespace VV.WebApp.MVC.Services
         {
             StringContent stringContent = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync("", stringContent);
+            HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:5000/api/auth/register", stringContent);
 
             return JsonSerializer.Deserialize<UserResponseLogin>(await response.Content.ReadAsStringAsync());
         }

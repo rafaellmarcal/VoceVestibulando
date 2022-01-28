@@ -5,7 +5,7 @@ namespace VV.WebApp.MVC.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<UserResponseLogin> Login(UserLogin user);
-        Task<UserResponseLogin> Register(UserRegister user);
+        Task<AuthenticationResponse> Login(UserLogin user);
+        Task<AuthenticationResponse> Register(UserRegister user);
     }
 }

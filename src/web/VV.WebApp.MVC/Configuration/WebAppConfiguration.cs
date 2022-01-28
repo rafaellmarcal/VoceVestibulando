@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VV.WebApp.MVC.Middlewares;
 
 namespace VV.WebApp.MVC.Configuration
 {
@@ -22,17 +23,20 @@ namespace VV.WebApp.MVC.Configuration
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/error/500");
+                app.UseStatusCodePagesWithRedirects("/error/{0}");
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
-            
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthenticationConfiguration();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

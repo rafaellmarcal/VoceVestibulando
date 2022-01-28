@@ -31,9 +31,11 @@ namespace VV.WebApp.MVC.Controllers
         {
             if (!ModelState.IsValid) return View(user);
 
-            UserResponseLogin response = await _authenticationService.Register(user);
+            AuthenticationResponse response = await _authenticationService.Register(user);
 
-            return View();
+            await ExecuteLogin(response);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("login")]
@@ -47,23 +49,26 @@ namespace VV.WebApp.MVC.Controllers
         {
             if (!ModelState.IsValid) return View(user);
 
-            UserResponseLogin response = await _authenticationService.Login(user);
+            AuthenticationResponse response = await _authenticationService.Login(user);
 
-            return View();
+            await ExecuteLogin(response);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            return View();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
 
-        private async Task ProcessLogin(UserResponseLogin respose)
+        private async Task ExecuteLogin(AuthenticationResponse respose)
         {
             JwtSecurityToken token = FormatedToken(respose.AccessToken);
 
             var claims = new List<Claim>();
-            claims.Add(new Claim("JWT", respose.AccessToken));
+            claims.Add(new Claim("Jwt", respose.AccessToken));
             claims.AddRange(token.Claims);
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -81,6 +86,5 @@ namespace VV.WebApp.MVC.Controllers
 
         private static JwtSecurityToken FormatedToken(string token)
             => new JwtSecurityTokenHandler().ReadToken(token) as JwtSecurityToken;
-
     }
 }

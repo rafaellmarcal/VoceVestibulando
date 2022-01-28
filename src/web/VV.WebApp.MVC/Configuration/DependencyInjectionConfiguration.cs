@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using VV.WebApp.MVC.Models.User;
 using VV.WebApp.MVC.Services;
+using VV.WebApp.MVC.Services.Interfaces;
 
 namespace VV.WebApp.MVC.Configuration
 {

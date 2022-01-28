@@ -40,7 +40,7 @@ namespace VV.WebApp.MVC.Models
         public string Senha { get; set; }
     }
 
-    public class UserResponseLogin
+    public class AuthenticationResponse
     {
         public string AccessToken { get; set; }
         public double ExpiresIn { get; set; }

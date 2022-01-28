@@ -6,7 +6,7 @@ namespace VV.WebApp.MVC.Services
     public abstract class BaseService
     {
 
-        protected bool ErrorsResponse(HttpResponseMessage responseMessage)
+        protected bool IsValidResponse(HttpResponseMessage responseMessage)
         {
             switch ((int)responseMessage.StatusCode)
             {

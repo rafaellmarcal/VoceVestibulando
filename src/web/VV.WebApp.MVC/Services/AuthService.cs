@@ -7,7 +7,7 @@ using VV.WebApp.MVC.Services.Interfaces;
 
 namespace VV.WebApp.MVC.Services
 {
-    public class AuthService : IAuthService
+    public class AuthService : BaseService, IAuthService
     {
         private readonly HttpClient _httpClient;
 
@@ -16,22 +16,48 @@ namespace VV.WebApp.MVC.Services
             _httpClient = httpClient;
         }
 
-        public async Task<UserResponseLogin> Login(UserLogin user)
+        public async Task<AuthenticationResponse> Login(UserLogin user)
         {
             StringContent stringContent = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:5000/api/auth/login", stringContent);
 
-            return JsonSerializer.Deserialize<UserResponseLogin>(await response.Content.ReadAsStringAsync());
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            if (!IsValidResponse(response))
+            {
+                return new AuthenticationResponse()
+                {
+                    ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                };
+            }
+
+            return JsonSerializer.Deserialize<AuthenticationResponse>(await response.Content.ReadAsStringAsync(), options);
         }
 
-        public async Task<UserResponseLogin> Register(UserRegister user)
+        public async Task<AuthenticationResponse> Register(UserRegister user)
         {
             StringContent stringContent = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:5000/api/auth/register", stringContent);
 
-            return JsonSerializer.Deserialize<UserResponseLogin>(await response.Content.ReadAsStringAsync());
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            if (!IsValidResponse(response))
+            {
+                return new AuthenticationResponse()
+                {
+                    ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                };
+            }
+
+            return JsonSerializer.Deserialize<AuthenticationResponse>(await response.Content.ReadAsStringAsync(), options);
         }
     }
 }

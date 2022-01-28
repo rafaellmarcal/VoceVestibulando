@@ -67,7 +67,6 @@ namespace VV.Autenticacao.API.Controllers
             else
                 AddErrors("Usuário/Senha inválido(s)!");
 
-
             return CustomResponse();
         }
 

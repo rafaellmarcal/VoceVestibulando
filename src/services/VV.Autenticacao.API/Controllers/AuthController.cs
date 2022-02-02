@@ -33,6 +33,8 @@ namespace VV.Autenticacao.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Registrar(UsuarioRegistro usuario)
         {
+            return new StatusCodeResult(401);
+
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             var user = new IdentityUser()

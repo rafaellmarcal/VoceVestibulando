@@ -39,21 +39,28 @@ namespace VV.WebApp.MVC.Controllers
         }
 
         [HttpGet("login")]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLogin user)
+        public async Task<IActionResult> Login(UserLogin user, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
+
             if (!ModelState.IsValid) return View(user);
 
             AuthenticationResponse response = await _authenticationService.Login(user);
 
             await ExecuteLogin(response);
 
-            return RedirectToAction("Index", "Home");
+            if (string.IsNullOrWhiteSpace(returnUrl))
+                return RedirectToAction("Index", "Home");
+
+            return LocalRedirect(returnUrl);
+
         }
 
         [HttpGet("logout")]

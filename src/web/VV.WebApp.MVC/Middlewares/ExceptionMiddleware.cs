@@ -30,7 +30,7 @@ namespace VV.WebApp.MVC.Middlewares
         {
             if (exception.StatusCode == HttpStatusCode.Unauthorized)
             {
-                context.Response.Redirect("/login");
+                context.Response.Redirect($"/login?ReturnUrl={context.Request.Path}");
                 return;
             }
 

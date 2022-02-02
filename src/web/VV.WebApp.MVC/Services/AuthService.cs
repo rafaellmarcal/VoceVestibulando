@@ -1,7 +1,10 @@
-﻿using System.Net.Http;
+﻿using Microsoft.Extensions.Options;
+using System;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using VV.WebApp.MVC.Extensions;
 using VV.WebApp.MVC.Models;
 using VV.WebApp.MVC.Services.Interfaces;
 
@@ -11,53 +14,39 @@ namespace VV.WebApp.MVC.Services
     {
         private readonly HttpClient _httpClient;
 
-        public AuthService(HttpClient httpClient)
+        public AuthService(
+            HttpClient httpClient,
+            IOptions<AppSettings> appSettings)
         {
+            httpClient.BaseAddress = new Uri(appSettings.Value.AuthUrl);
             _httpClient = httpClient;
         }
 
         public async Task<AuthenticationResponse> Login(UserLogin user)
         {
-            StringContent stringContent = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync("auth/login", user.ToStringContent());
 
-            HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:5000/api/auth/login", stringContent);
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
-            if (!IsValidResponse(response))
-            {
-                return new AuthenticationResponse()
-                {
-                    ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
-                };
-            }
-
-            return JsonSerializer.Deserialize<AuthenticationResponse>(await response.Content.ReadAsStringAsync(), options);
+            return await ProcessResponse(response);
         }
 
         public async Task<AuthenticationResponse> Register(UserRegister user)
         {
-            StringContent stringContent = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _httpClient.PostAsync("auth/register", user.ToStringContent());
 
-            HttpResponseMessage response = await _httpClient.PostAsync("https://localhost:5000/api/auth/register", stringContent);
+            return await ProcessResponse(response);
+        }
 
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
+        private async Task<AuthenticationResponse> ProcessResponse(HttpResponseMessage response)
+        {
             if (!IsValidResponse(response))
             {
                 return new AuthenticationResponse()
                 {
-                    ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                    ResponseResult = await DeserializeHttpResponseMessage<ResponseResult>(response)
                 };
             }
 
-            return JsonSerializer.Deserialize<AuthenticationResponse>(await response.Content.ReadAsStringAsync(), options);
+            return await DeserializeHttpResponseMessage<AuthenticationResponse>(response);
         }
     }
 }

@@ -1,10 +1,18 @@
 ﻿using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using VV.WebApp.MVC.Models.Exceptions;
 
 namespace VV.WebApp.MVC.Services
 {
     public abstract class BaseService
     {
+        protected async Task<T> DeserializeHttpResponseMessage<T>(HttpResponseMessage responseMessage)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            return JsonSerializer.Deserialize<T>(await responseMessage.Content.ReadAsStringAsync(), options);
+        }
 
         protected bool IsValidResponse(HttpResponseMessage responseMessage)
         {

@@ -10,16 +10,25 @@ namespace VV.WebApp.MVC
     {
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment environment)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(environment.ContentRootPath)
+                .AddJsonFile("appsettings.json", true, true)
+                .AddJsonFile($"appsettings.{environment.EnvironmentName}.json", true, true)
+                .AddEnvironmentVariables();
+
+            if (environment.IsDevelopment())
+                builder.AddUserSecrets<Startup>();
+
+            Configuration = builder.Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthenticationConfiguration();
 
-            services.AddWebAppConfiguration();
+            services.AddWebAppConfiguration(Configuration);
 
             services.AddServices();
         }

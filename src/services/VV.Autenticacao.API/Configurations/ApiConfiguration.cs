@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VV.WebAPI.Core.Auth;
 
 namespace VV.Autenticacao.API.Configurations
 {
@@ -23,7 +24,7 @@ namespace VV.Autenticacao.API.Configurations
 
             app.UseRouting();
 
-            app.UseIdentityConfiguration();
+            app.UseAuthConfiguration();
 
             app.UseEndpoints(endpoints =>
             {

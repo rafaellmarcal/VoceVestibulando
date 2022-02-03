@@ -1,4 +1,4 @@
-﻿namespace VV.Autenticacao.API.Models
+﻿namespace VV.WebAPI.Core.Auth
 {
     public class AppSettings
     {

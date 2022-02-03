@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VV.Autenticacao.API.Configurations;
+using VV.WebAPI.Core.Auth;
 
 namespace VV.Autenticacao.API
 {
@@ -27,9 +28,11 @@ namespace VV.Autenticacao.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApiConfiguration();
+
             services.AddIdentityConfiguration(Configuration);
 
-            services.AddControllers();
+            services.AddJwtConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
         }

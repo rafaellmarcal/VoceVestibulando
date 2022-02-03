@@ -3,7 +3,7 @@ using VV.Core.DomainObjects;
 
 namespace VV.Catalogo.API.Models
 {
-    public class Produto : Entity
+    public class Produto : Entity, IAggregrateRoot
     {
         public string Nome { get; set; }
         public string Descricao { get; set; }

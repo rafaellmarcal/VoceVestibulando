@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
 
-namespace VV.Autenticacao.API.Configuration
+namespace VV.Autenticacao.API.Configurations
 {
     public static class SwaggerConfiguration
     {

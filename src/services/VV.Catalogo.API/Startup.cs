@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VV.Catalogo.API.Data;
+using VV.Catalogo.API.Configurations;
 
 namespace VV.Catalogo.API
 {
@@ -28,32 +27,18 @@ namespace VV.Catalogo.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<CatalogoDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddApiConfiguration(Configuration);
 
-            services.AddControllers();
+            services.RegisterServices();
 
-            services.AddScoped<CatalogoDbContext>();
-            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddSwaggerConfiguration();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseApiConfiguration(env);
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseSwaggerConfiguration();
         }
     }
 }

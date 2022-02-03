@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VV.Autenticacao.API.Configuration;
+using VV.Autenticacao.API.Configurations;
 
 namespace VV.Autenticacao.API
 {

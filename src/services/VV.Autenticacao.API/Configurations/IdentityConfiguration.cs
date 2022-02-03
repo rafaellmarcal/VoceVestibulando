@@ -10,7 +10,7 @@ using VV.Autenticacao.API.Context;
 using VV.Autenticacao.API.Extensions;
 using VV.Autenticacao.API.Models;
 
-namespace VV.Autenticacao.API.Configuration
+namespace VV.Autenticacao.API.Configurations
 {
     public static class IdentityConfiguration
     {

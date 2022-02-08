@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace VV.WebApp.MVC.Models
+namespace VV.WebApp.MVC.ViewComponents
 {
     public class SummaryViewComponent : ViewComponent
     {

@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using VV.WebApp.MVC.Models.Exceptions;
+using VV.WebApp.MVC.Exceptions;
 
 namespace VV.WebApp.MVC.Services
 {

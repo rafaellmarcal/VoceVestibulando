@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using System;
 using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
+using VV.WebAPI.Core.Configuration;
 using VV.WebApp.MVC.Extensions;
 using VV.WebApp.MVC.Models;
 using VV.WebApp.MVC.Services.Interfaces;

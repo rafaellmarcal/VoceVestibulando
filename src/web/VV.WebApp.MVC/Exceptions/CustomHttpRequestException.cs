@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace VV.WebApp.MVC.Models.Exceptions
+namespace VV.WebApp.MVC.Exceptions
 {
     public class CustomHttpRequestException : Exception
     {

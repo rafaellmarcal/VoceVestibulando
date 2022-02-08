@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using VV.WebAPI.Core.Configuration;
 
 namespace VV.WebAPI.Core.Auth
 {

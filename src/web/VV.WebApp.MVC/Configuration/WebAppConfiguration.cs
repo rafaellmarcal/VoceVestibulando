@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VV.WebAPI.Core.Configuration;
 using VV.WebApp.MVC.Middlewares;
-using VV.WebApp.MVC.Models;
 
 namespace VV.WebApp.MVC.Configuration
 {
@@ -46,7 +46,7 @@ namespace VV.WebApp.MVC.Configuration
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Catalog}/{action=Index}/{id?}");
             });
 
             return app;

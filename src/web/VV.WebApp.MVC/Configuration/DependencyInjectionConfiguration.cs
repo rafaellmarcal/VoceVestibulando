@@ -11,6 +11,7 @@ namespace VV.WebApp.MVC.Configuration
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddHttpClient<IAuthService, AuthService>();
+            services.AddHttpClient<ICatalogService, CatalogService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

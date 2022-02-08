@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Threading.Tasks;
-using VV.WebApp.MVC.Models.Exceptions;
+using VV.WebApp.MVC.Exceptions;
 
 namespace VV.WebApp.MVC.Middlewares
 {

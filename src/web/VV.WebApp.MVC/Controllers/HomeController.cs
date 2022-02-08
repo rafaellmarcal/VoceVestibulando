@@ -5,11 +5,6 @@ namespace VV.WebApp.MVC.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [Route("error/{id:length(3,3)}")]
         public IActionResult Error(int id)
         {

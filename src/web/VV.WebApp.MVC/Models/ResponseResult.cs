@@ -11,6 +11,6 @@ namespace VV.WebApp.MVC.Models
 
     public class ResponseErrorMessages
     {
-        public List<string> Messages { get; set; }
+        public List<string> Notifications { get; set; }
     }
 }

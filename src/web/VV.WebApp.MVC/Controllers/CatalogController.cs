@@ -4,7 +4,7 @@ using VV.WebApp.MVC.Services.Interfaces;
 
 namespace VV.WebApp.MVC.Controllers
 {
-    public class CatalogController : Controller
+    public class CatalogController : BaseWebAppController
     {
         private readonly ICatalogService _catalogService;
 
@@ -23,7 +23,7 @@ namespace VV.WebApp.MVC.Controllers
 
         [HttpGet]
         [Route("catalog/product/{id}")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> ProductDetail(string id)
         {
             return View(await _catalogService.GetById(id));
         }

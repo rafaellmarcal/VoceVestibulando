@@ -17,7 +17,7 @@ namespace VV.Autenticacao.API.Controllers
 
             return BadRequest(
                 new ValidationProblemDetails(
-                    new Dictionary<string, string[]>() { { "Mensagens", Errors.ToArray() } }
+                    new Dictionary<string, string[]>() { { "Notifications", Errors.ToArray() } }
                 )
             );
         }

@@ -11,7 +11,7 @@ using VV.WebApp.MVC.Services.Interfaces;
 
 namespace VV.WebApp.MVC.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : BaseWebAppController
     {
         private readonly IAuthService _authenticationService;
 
@@ -33,9 +33,11 @@ namespace VV.WebApp.MVC.Controllers
 
             AuthenticationResponse response = await _authenticationService.Register(user);
 
+            if (IsValid(response.ResponseResult)) return View(user);
+
             await ExecuteLogin(response);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalog");
         }
 
         [HttpGet("login")]
@@ -54,10 +56,12 @@ namespace VV.WebApp.MVC.Controllers
 
             AuthenticationResponse response = await _authenticationService.Login(user);
 
+            if (IsValid(response.ResponseResult)) return View(user);
+
             await ExecuteLogin(response);
 
             if (string.IsNullOrWhiteSpace(returnUrl))
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Catalog");
 
             return LocalRedirect(returnUrl);
 
@@ -67,7 +71,7 @@ namespace VV.WebApp.MVC.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Catalog");
         }
 
         private async Task ExecuteLogin(AuthenticationResponse respose)

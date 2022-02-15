@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Globalization;
 using VV.WebAPI.Core.Configuration;
 using VV.WebApp.MVC.Middlewares;
 
@@ -39,6 +41,14 @@ namespace VV.WebApp.MVC.Configuration
             app.UseRouting();
 
             app.UseAuthenticationConfiguration();
+
+            var supportedLanguages = new[] { new CultureInfo("pt-BR") };
+            app.UseRequestLocalization(new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new RequestCulture("pt-BR"),
+                SupportedCultures = supportedLanguages,
+                SupportedUICultures = supportedLanguages
+            });
 
             app.UseMiddleware<ExceptionMiddleware>();
 
